@@ -1,0 +1,327 @@
+                                                    EXERCISE ::2
+
+
+//problem 1
+String name='Shubh Agrawal Yadav';
+System.debug('String Variable name is :'+ name);
+System.debug('Checking endsWith method of String :'+name.endsWith('Yadav'));
+
+//problem 2
+Date date1=Date.today();
+Date date2=date1.addDays(30);
+System.debug('date1 is :'+ date1);
+System.debug('date2 is :'+ date2);
+
+//problem 3
+String num='10';
+Integer num1=Integer.valueOf(num);
+Integer num2=num1+20;
+System.debug('Integer From String is :'+ num1);
+System.debug('Adding 20 to num1 :'+ num2);
+
+//problem 4
+String chant='Hare Krishna';
+System.debug('lenght of chant is :'+ chant.length()); 
+
+//problem 5
+List<Integer> list1=new List<Integer> ();
+list1.add(4);
+list1.add(8);
+list1.add(12);
+list1.add(28);
+list1.add(40);
+System.debug('list1 after using add() method :'+ list1);
+System.debug('Printing values of List using get() method ::');
+for(integer i=0;i<list1.size();i++){
+    system.debug(list1.get(i));
+}
+list1.set(0,44);
+list1.set(1,88);
+list1.set(2,1212);
+list1.set(3,2828);
+list1.set(4,4040);
+System.debug('list1 after set() method :'+ list1);
+list1.clear();
+System.debug('list1 after clear() method :'+ list1);
+
+//problem 6
+
+Integer x = 20;
+While(x > 12){
+    integer m=12;
+    x-- ;
+    if(x==12){
+        x=x-12;
+    }
+  }
+integer i=x;
+
+For(integer x=i ; x < 10; x = x + 1){
+    system.debug('Value of x is: ' + x);
+}
+
+
+                                                          Exercise 3 ::
+Integer myluckyNumber = 15;
+Integer myunlucklyNumber = 7; 
+System.debug('Required Answer is :'+ ((myluckyNumber) != (myunlucklyNumber + 8)));
+
+                                                          Exercise 4 ::
+Boolean isTrue = True;
+Boolean isFalse = false;
+System.debug('Required Answer is :'+ (isTrue || isFalse));
+
+                                                          Exercise 5 ::
+Date today = Date.today();
+Date tomorrow = Date.today().addDays(1);
+System.debug('Required Answer is :'+ (today != tomorrow));
+
+Excercise 6
+
+public class Excercise6 {
+    public static void demo(Integer Score){
+        if(Score ==100){
+            System.debug('Grade: A+');
+        }
+        else if(Score >=90){
+            System.debug('Grade: A');
+        }
+        else if(Score >=80){
+            System.debug('Grade: B');
+        }
+        else{
+            System.debug('Grade: Failed');
+        }
+    }
+
+}
+                                                               Exercise 7 ::
+public class Excercise7 {
+    public static void demoex7(){
+     
+    List<Billing__c> Billing_List=[SELECT Id, Name, Amount_Paid__c, Status__c FROM Billing__c WHERE CreatedDate = today];
+    List<String> Paid_bill =new List<String>();
+        
+    for(Billing__c bill_var:Billing_List){
+        System.debug('Value of Current Record on which Loop is iterating is Billing_c :'+ bill_var);
+      
+        if(bill_var.Status__c == 'Paid'){
+            Paid_bill.add(bill_var.Name);
+        }
+    }
+    System.debug('Billing Record are :'+Paid_bill );
+    
+    
+    
+    }
+}
+
+                                                             Excercise 8 ::
+public class DiscountClass{
+    static final decimal regularDiscount = 0.1;
+   static decimal finalPrice = 0;
+   
+   public static decimal calculateDiscount(Integer price) {
+      //calculate the discount
+      finalPrice = price - price *regularDiscount ;
+      return finalPrice;
+   }
+
+}
+
+                                                              Exercise 9 ::
+
+
+public interface InterfaceExample {
+    Double percentageDiscountTobeApplied();
+
+}
+
+
+public class PremiumCustomer implements InterfaceExample {
+    public Double percentageDiscountTobeApplied(){
+        return 0.30 ;
+    }
+
+}
+
+
+public class normalCustomer implements InterfaceExample {
+    public Double percentageDiscountTobeApplied(){
+        return 0.10 ;
+    }
+
+}
+
+                                                                   Exercise 10 :: 
+
+public class Excercise10 {
+    public static void insert_ex10(){
+         Customer__c customer1 = new Customer__c();
+         customer1.Name='Wipro';
+         customer1.Customer_Type__c='Premium';
+        try{
+         insert customer1; //Inserting a Customer Record
+        }
+        
+        Catch(Exception e){
+            System.debug(e);
+        }
+        
+         
+         List<Billing__c> bills1 = new List<Billing__c>();
+         Billing__c bill_obj =new Billing__c();
+         bill_obj.Status__c='Paid';
+         bill_obj.Amount_Paid__c=5000000;
+         bill_obj.Customer__c=customer1.Id;
+         bills1.add(bill_obj);
+        
+        if(!bills1.isEmpty()){
+            // storing results in srList
+            Database.SaveResult[] srList=Database.insert(bills1,false); //Inserting Billing record using Database method
+            for(Database.SaveResult bill_var:srList){
+                if(bill_var.isSuccess()){
+                    System.debug('get Id Of Success '+ bill_var.getId());
+                }
+                else{
+                    Database.Error[] srList_err=bill_var.getErrors();
+                    for(Database.Error bill_err:srList_err){
+                        System.debug('Print Error Message :'+ bill_err.getMessage() );
+                        System.debug('Print Status Code :'+ bill_err.getStatusCode());
+                        System.debug('Print Error Field :'+ bill_err.getFields());
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+                                                                 Exercise 11 ::
+
+Query Editor
+
+SELECT Id, Amount, StageName,Account.Name,Account.Industry,Account.Website FROM Opportunity Where Account.Industry='Energy' AND Account.AnnualRevenue > 5000
+
+                                                                 Exercise 12 ::
+
+trigger CustomerTrigger on Customer__c (After insert,After update) {
+    if(Trigger.isAfter && (Trigger.isInsert || Trigger.isUpdate)){
+        List<Billing__c> bill_ex12=new List<Billing__c>();
+        for(Customer__c customer_up:Trigger.New){
+            if(customer_up.Active__c==true){
+                Billing__c bill =new Billing__c();
+                bill.Status__c='Paid';
+                bill.Amount_Paid__c=1000000;
+                bill_ex12.add(bill);
+            }
+        }
+        if(!bill_ex12.isEmpty()){
+            insert bill_ex12;
+        }
+    }
+    
+
+}
+
+                                                                 Exercise 13 ::
+@isTest
+public class CustomerTriggerTest{
+    public static testMethod void ex_13Test(){
+        Customer__c c13=new Customer__c();
+        c13.Active__c=true; 
+        c13.Customer__c='0o62w000000XZTEAA4'; 
+        c13.Customer_Type__c='Premium';
+        insert c13;
+        
+        Test.startTest();
+        c13.Active__c=true;
+        update c13;
+        Test.stopTest();
+        
+        system.assertEquals(true,c13.Active__c);
+        system.assertEquals('Premium',c13.Customer_Type__c);   
+        
+    }
+
+                                                                     Exercise 14 ::
+                                                                     
+trigger DisqualifyTestLeads on Lead (before insert) {
+    List<Lead> llist = new List<Lead>();
+    for(Lead le:Trigger.new)
+    {
+      if(le.FirstName.containsIgnoreCase('test')|| string.isBlank(le.FirstName) 
+         || le.LastName.containsIgnoreCase('test')||string.isBlank(le.LastName))
+        {
+            system.debug(le.FirstName + ' ' + le.LastName + 'Will be disqualified!');
+            llist.add(le);
+        }
+    }
+    for(Lead l :llist){
+        l.status='Disqualified';
+    }
+}
+
+}
+
+                                                                       Exercise 15 ::
+                                                                       
+@isTest
+public class DisqualifyTestLeadsTest {
+	public static testMethod void ex_14Test()
+    {
+        Lead lead_ex_14=new Lead();
+        lead_ex_14.FirstName = 'Nyuwi';
+        lead_ex_14.LastName = 'Test';
+        lead_ex_14.Company = 'Wipro';
+        lead_ex_14.Status ='Open - Not Contacted';
+        
+       
+        Test.startTest();
+        insert lead_ex_14;
+        Test.stopTest();
+        
+        system.assertEquals('Wipro', lead_ex_14.Company);
+        system.assertEquals('Nyuwi', lead_ex_14.FirstName);
+    }
+}
+                                                                  Exercise 16 ::
+
+<apex:page standardController="Opportunity">
+    <apex:pageBlock title="Opportunity Details">
+        <apex:pageBlockSection >
+            <apex:outputField value="{! Opportunity.Name }"/>
+            <apex:outputField value="{! Opportunity.Amount }"/>
+            <apex:outputField value="{! Opportunity.CloseDate }"/>
+            <apex:outputField value="{! Opportunity.Account.Name }"/>
+       
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+</apex:page>
+
+                                                                   Exercise 17::
+
+<apex:page standardController="Account" recordSetVar="Accounts">
+    <apex:pageBlock >
+        <apex:repeat var="a" value="{!Accounts}" rendered="true" id="account_list">
+            <li>
+                <apex:outputLink value="/{!a.ID}">
+                    <apex:outputText value="{!a.Name}"/>                    
+                </apex:outputLink>
+                
+            </li>
+        </apex:repeat>
+    </apex:pageBlock>
+</apex:page>
+
+                                                                    Exercise 18 ::
+
+<apex:page controller="NewCaseListController">
+    <apex:repeat value="{!NewCases}" var="case">
+        <li><apex:outputLink value="/{!case.id}" target="_new"> {!case.CaseNumber}</apex:outputLink></li>
+   
+    </apex:repeat>
+</apex:page>
+
+                                                          
+
